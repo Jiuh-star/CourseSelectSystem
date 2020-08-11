@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>我的课程</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome5-overrides.min.css" %}">
+</head>
+
+<body id="page-top">
+<div class="container-fluid">
+    <div class="card shadow" style="margin-bottom: 16px;">
+        <div class="card-header py-3">
+            <p class="text-primary m-0 font-weight-bold">我的课程</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    {% csrf_token %}
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>排课班号</th>
+                        <th>课程编号</th>
+                        <th>课程名称</th>
+                        <th>学分</th>
+                        <th>课程类别</th>
+                        <th>时间安排</th>
+                        <th>主讲教师</th>
+                        <th>授课地点</th>
+                        <th>选课情况</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for c in mine %}
+                        <tr>
+                            <td><a id="{{ c.arr_id }}"
+                                   href="javascript:selectThisCourse('{{ c.arr_id }}',{{ c.arr_id }},true)">退课</a>
+                            </td>
+                            <td>{{ c.arr_id }}</td>
+                            <td>{{ c.cour_id }}</td>
+                            <td>{{ c.cour__cour_name }}</td>
+                            <td>{{ c.cour__cour_credit }}</td>
+                            <td>{{ c.cour__cour_type }}</td>
+                            <td>{{ c.arr__arr_time }}</td>
+                            <td>{{ c.arr__teacher__teac_name }}</td>
+                            <td>{{ c.arr__arr_loc }}</td>
+                            <td>
+                                <div class="progress" style="width: 100px;">
+                                    {% widthratio c.arr.arr_num c.arr.arr_capacity 100 as width %}
+                                    <div class="progress-bar bg-success"
+                                         aria-valuenow="{{ width }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100" style="width: {{ width }}%;">{{ width }}%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mb-3" style="margin-bottom: 16px;">
+        <div class="card-header py-3">
+            <p class="text-primary m-0 font-weight-bold">历史选课</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>课程代码</th>
+                        <th>课程名称</th>
+                        <th>课程类别</th>
+                        <th>课程成绩</th>
+                        <th>学分</th>
+                        <th>绩点</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for h in history %}
+                        <tr>
+                            <td>{{ h.courseId }}</td>
+                            <td>{{ h.courseName }}</td>
+                            <td>{{ h.courseType }}</td>
+                            <td>{{ h.score }}</td>
+                            <td>{{ h.courseCredit }}</td>
+                            <td>{{ h.gradePoint }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="{% static "js/script.min.js" %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>用户登录窗体</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome5-overrides.min.css" %}">
+</head>
+
+<body class="bg-gradient-primary">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-9 col-lg-12 col-xl-10">
+            <div class="card shadow-lg o-hidden border-0 my-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-flex">
+                            <div class="flex-grow-1 bg-login-image"
+                                 style="background-image: url('{% static "img/dogs/image3.jpeg" %}');"></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h4 class="text-dark mb-4">用户登录窗体</h4>
+                                </div>
+                                <form class="user" method="post">
+                                    {% csrf_token %}
+                                    {{ form.non_field_errors }}
+                                    {{ form.username.errors }}
+                                    {{ form.password.errors }}
+                                    {{ form.captcha.errors }}
+                                    <div class="form-group">{{ form.username }}</div>
+                                    <div class="form-group">{{ form.password }}</div>
+                                    <div class="form-group">{{ form.captcha }}</div>
+                                    <button class="btn btn-primary btn-block text-white btn-user" type="submit">登录
+                                    </button>
+                                    <hr>
+                                </form>
+                                <div class="text-center"><a class="small" href="#">忘记密码？</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+</body>
+
+</html>

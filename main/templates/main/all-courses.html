@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>开课信息</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome5-overrides.min.css" %}">
+</head>
+
+<body id="page-top">
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <!-- Start: Default Card -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0">搜索界面</h6>
+                </div>
+                <div class="card-body">
+                    <form name="form" target="iframe" onsubmit="return false">>
+                        <iframe name="iframe" style="display: none;"></iframe>
+                        <div class="form-group">
+                            <select class="form-control" name="collegeId">
+                                <option value="" {% ifequal params.collegeId '' %}selected{% endifequal %}>开课单位</option>
+                                {% for unit in units %}
+                                    <option value="{{ unit.coll_id }}"
+                                            {% ifequal params.collegeId unit.coll_id %}selected{% endifequal %}>
+                                        {{ unit.coll_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <hr>
+                        <div class="form-group"><input class="form-control" type="text" name="courseName"
+                                                       placeholder="课程名称" value="{{ params.courseName }}"></div>
+                        <div class="form-group"><input class="form-control" type="text" name="courseId"
+                                                       placeholder="课程编号" value="{{ params.courseId }}"></div>
+                        <hr>
+                        <div class="form-group"><input class="form-control" type="text" name="arrangementId"
+                                                       placeholder="排课班号" value="{{ params.arrangementId }}"></div>
+                        <div class="form-group"><select class="form-control" name="obj">
+                            <option value="" {% ifequal params.obj '' %}selected{% endifequal %}>招生对象</option>
+                            <option value="内招生" {% ifequal params.obj '内招生' %}selected{% endifequal %}>内招生</option>
+                            <option value="外招生" {% ifequal params.obj '外招生' %}selected{% endifequal %}>外招生</option>
+                        </select></div>
+                        <hr>
+                        <div class="form-group">
+                            <input class="form-control" type="text"
+                                   name="teacherName" placeholder="教师名称"
+                                   value="{{ params.teacherName }}">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit" onclick="submitSearch();"
+                                    id="submitSearchButton">
+                                <i class="fa fa-search" style="padding-right: 5px;"></i>
+                                搜索
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- End: Default Card -->
+        </div>
+        <div class="col">
+            <div class="card shadow mb-3">
+                <div class="card-header py-3">
+                    <p class="text-primary m-0 font-weight-bold">课程信息</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive text-nowrap" style="min-height: 425px;">
+                        <table class="table table-striped table-hover table-sm">
+                            {% csrf_token %}
+                            <thead>
+                            <tr>
+                                <th>课程编号</th>
+                                <th>排课班号</th>
+                                <th>课程名称</th>
+                                <th>排课限制</th>
+                                <th>主讲教师</th>
+                                <th>开课专业</th>
+                                <th>学分</th>
+                                <th>授课地点</th>
+                                <th>时间安排</th>
+                                <th>考试方式</th>
+                                <th>招生对象</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arr in arrangements %}
+                                <tr>
+                                    <td>{{ arr.cour_id }}</td>
+                                    <td>{{ arr.arr_id }}</td>
+                                    <td>{{ arr.cour__cour_name }}</td>
+                                    <td>{{ arr.arr_capacity }}</td>
+                                    <td>{{ arr.teacher__teac_name }}</td>
+                                    <td>{{ arr.spec__spec_name }}</td>
+                                    <td>{{ arr.cour__cour_credit }}</td>
+                                    <td>{{ arr.arr_loc }}</td>
+                                    <td>{{ arr.arr_time }}</td>
+                                    <td>{{ arr.arr_test }}</td>
+                                    <td>{{ arr.cour__cour_obj }}</td>
+                                    <td>{{ arr.arr_remark }}</td>
+                                </tr>
+                            {% endfor %}
+                            {% if not arrangements and request_method == 'POST' %}
+                                <tr>
+                                    <td style="text-align: center" colspan="13">无相关课程信息，请检查检索条件</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="{% static "js/script.min.js" %}"></script>
+</body>
+
+</html>

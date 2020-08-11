@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{{ arr.cour.cour_name }}</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome5-overrides.min.css" %}">
+</head>
+
+<body id="page-top">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-left-primary py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
+                                <span>课程类别</span>
+                            </div>
+                            <div class="text-dark font-weight-bold h5 mb-0">
+                                <span>{{ arr.cour.cour_type }}</span>
+                            </div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-left-danger py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-danger font-weight-bold text-xs mb-1">
+                                <span>课程专业</span>
+                            </div>
+                            <div class="text-dark font-weight-bold h5 mb-0">
+                                <span>{{ arr.cour.cour_major }}</span>
+                            </div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-lock fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <!-- Start: Card Warning -->
+            <div class="card shadow border-left-success py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-success font-weight-bold text-xs mb-1">
+                                <span>开课专业</span>
+                            </div>
+                            <div class="text-dark font-weight-bold h5 mb-0">
+                                <span>{{ arr_major }}</span>
+                            </div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-smile-wink fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: Card Warning -->
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-left-warning py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-warning font-weight-bold text-xs mb-1">
+                                <span>当前选课人数 / 课程容量</span>
+                            </div>
+                            <div class="text-dark font-weight-bold h5 mb-0">
+                                <span>{{ arr.arr_num }} / {{ arr.arr_capacity }}</span>
+                            </div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-user-friends fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start: Chart -->
+    <div class="row">
+        <div class="col-lg-7 col-xl-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="text-primary font-weight-bold m-0">详细信息</h6>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h6 class="mb-0"><strong>课程编号</strong></h6>
+                        <span class="text-xs">{{ arr.cour.cour_id }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="mb-0"><strong>排课班号</strong></h6>
+                        <span class="text-xs">{{ arr.arr_id }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="mb-0"><strong>上课时间</strong></h6>
+                        <span class="text-xs">{{ arr.arr_time }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="mb-0"><strong>上课地点</strong></h6>
+                        <span class="text-xs">{{ arr.arr_loc }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="mb-0"><strong>考试方式</strong></h6>
+                        <span class="text-xs">{{ arr.arr_test }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="mb-0"><strong>考试时间</strong></h6>
+                        <span class="text-xs">{{ arr.arr_test_time }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="mb-0"><strong>备注</strong></h6>
+                        <span class="text-xs">{{ arr.arr_remark }}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-5 col-xl-4">
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-primary font-weight-bold m-0">学生类别占比</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        {% if chart_data.内招生 is 0 and chart_data.外招生 is 0 %}
+                            <div class="text-center">暂无数据，请稍后重试</div>
+                        {% else %}
+                            <canvas data-bs-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;外招生&quot;,&quot;内招生&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;rgb(78,115,223)&quot;,&quot;rgb(28,200,138)&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;{{ chart_data.外招生 }}&quot;,&quot;{{ chart_data.内招生 }}&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas>
+                        {% endif %}
+                    </div>
+                    <div
+                            class="text-center small mt-4"><span class="mr-2"><i class="fas fa-circle text-primary"></i>&nbsp;外招生</span><span
+                            class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;内招生</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End: Chart -->
+</div>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/chart.min.js" %}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="{% static "js/script.min.js" %}"></script>
+<script>loadChart();</script>
+</body>
+
+</html>

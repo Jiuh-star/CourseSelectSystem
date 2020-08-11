@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>学生选课</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome5-overrides.min.css" %}">
+</head>
+
+<body id="page-top">
+<div class="container-fluid">
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <p class="text-primary m-0 font-weight-bold">{{ title }}</p>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 text-nowrap">
+                    <div class="dataTables_length" aria-controls="dataTable"
+                         onchange="limitChange('stu/selection', 'limit', null, loadSearchFunc)">
+                        <label><select class="form-control form-control-sm custom-select custom-select-sm" id="limit">
+                            <option value="10" {% ifequal limit "10" %}selected{% endifequal %}>10</option>
+                            <option value="25" {% ifequal limit "25" %}selected{% endifequal %}>25</option>
+                            <option value="50" {% ifequal limit "50" %}selected{% endifequal %}>50</option>
+                            <option value="100" {% ifequal limit "100" %}selected{% endifequal %}>100</option>
+                        </select>&nbsp;条/页</label></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-md-right dataTables_filter" id="dataTable_filter">
+                        <label><input type="search"
+                                      class="form-control form-control-sm"
+                                      aria-controls="dataTable"
+                                      placeholder="排课班号精确搜索" id="search">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive text-nowrap table mt-2" id="dataTable" role="grid"
+                 aria-describedby="dataTable_info">
+                <table class="table my-0 table-hover" id="dataTable">
+                    {% csrf_token %}
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>排课班号</th>
+                        <th>课程编号</th>
+                        <th>课程名称</th>
+                        <th>学分</th>
+                        <th>时间安排</th>
+                        <th>主讲教师</th>
+                        <th>授课地点</th>
+                        <th>容量</th>
+                        <th>已选</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if error %}
+                        <tr>
+                            <td colspan="11" style="text-align: center">{{ error }}</td>
+                        </tr>
+                    {% else %}
+                        {% for p in page_obj %}
+                            <tr>
+                                {% with p.arr_id as id %}
+                                    <td>
+                                        <a href="javascript: selectThisCourse('{{ id }}', {{ id }});"
+                                           id="{{ id }}">
+                                            选课
+                                        </a>
+                                    </td>
+                                {% endwith %}
+                                <td>{{ p.arr_id }}</td>
+                                <td>{{ p.cour_id }}</td>
+                                <td>{{ p.cour.cour_name }}</td>
+                                <td>{{ p.cour.cour_credit }}</td>
+                                <td>{{ p.arr_time }}</td>
+                                <td>{{ p.teacher.teac_name }}</td>
+                                <td>{{ p.arr_loc }}</td>
+                                <td>{{ p.arr_capacity }}</td>
+                                <td>{{ p.arr_num }}</td>
+                                <td>{{ p.arr_remark }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% endif %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td></td>
+                        <td><strong>排课班号</strong></td>
+                        <td><strong>课程编号</strong></td>
+                        <td><strong>课程名称</strong></td>
+                        <td><strong>学分</strong></td>
+                        <td><strong>时间安排</strong></td>
+                        <td><strong>主讲教师</strong></td>
+                        <td><strong>授课地点</strong></td>
+                        <td><strong>容量</strong></td>
+                        <td><strong>已选</strong></td>
+                        <td><strong>备注</strong></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-6 align-self-center"></div>
+                <div class="col-md-6">
+                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="javascript:loadXMLDoc('./stu/selection?page=1&limit={{ limit }}','GET','',null,loadSearchFunc)"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="javascript:loadXMLDoc('./stu/selection?page={{ page_obj.previous_page_number }}&limit={{ limit }}','GET','',null,loadSearchFunc)">
+                                        {{ page_obj.previous_page_number }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item active disabled"><a class="page-link">{{ page_obj.number }}</a></li>
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="javascript:loadXMLDoc('./stu/selection?page={{ page_obj.next_page_number }}&limit={{ limit }}','GET','',null,loadSearchFunc)">
+                                        {{ page_obj.next_page_number }}
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="javascript:loadXMLDoc('./stu/selection?page={{ page_obj.paginator.num_pages }}&limit={{ limit }}','GET','',null,loadSearchFunc)"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="{% static "js/script.min.js" %}"></script>
+</body>
+
+</html>

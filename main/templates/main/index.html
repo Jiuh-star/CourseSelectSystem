@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>学生选课系统</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome5-overrides.min.css" %}">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+                <div class="sidebar-brand-text mx-3">
+                    <span>学生选课系统</span>
+                    {% ifnotequal role '学生' %}
+                        <small><br/>{{ role }}端</small>
+                    {% endifnotequal %}
+                </div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                {% for item in menu %}
+                    {% if item.child %}
+                        <li role="presentation" class="nav-item">
+                            <div>
+                                <a class="btn btn-link nav-link" data-toggle="collapse" aria-expanded="false"
+                                   aria-controls="{{ item.control }}" href="#{{ item.control }}" role="button">
+                                    <i class="{{ item.icon }}"></i>
+                                    <span>{{ item.title }}</span>
+                                </a>
+                                <div class="collapse" id="{{ item.control }}">
+                                    <div class="bg-white border rounded py-2 collapse-inner">
+                                        {% for c in item.child %}
+                                            <a class="collapse-item" href="{{ c.href }}" style="white-space: normal">
+                                                {{ c.courseName }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="{{ item.href }}">
+                                <i class="{{ item.icon }}"></i>
+                                <span>{{ item.title }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <div class="container-fluid">
+                    <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i
+                            class="fas fa-bars"></i></button>
+                    <h4 class="d-sm-flex" id="heading" style="margin: auto 0;"></h4>
+                    <ul class="nav navbar-nav flex-nowrap ml-auto">
+                        <div class="d-none d-sm-block topbar-divider"></div>
+                        <li class="nav-item d-flex dropdown no-arrow" role="presentation">
+                            <div class="d-flex d-xl-flex align-items-center"><span
+                                    style="font-size: 13px;">{{ username }} {{ role }}</span><i
+                                    class="fa fa-user-circle"
+                                    style="padding-left: 8px;"></i></div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container-fluid" id="container"></div>
+        </div>
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Jiuh-star 2020</span></div>
+            </div>
+        </footer>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/chart.min.js" %}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="{% static "js/script.min.js" %}"></script>
+</body>
+
+</html>

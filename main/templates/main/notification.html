@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>通知公告</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fonts/fontawesome5-overrides.min.css" %}">
+</head>
+
+<body id="page-top">
+<div class="container-fluid">
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <p class="text-primary m-0 font-weight-bold">通知信息</p>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 text-nowrap">
+                    <div class="dataTables_length" aria-controls="dataTable"
+                         onchange="limitChange('notification', 'limit')">
+                        <label><select class="form-control form-control-sm custom-select custom-select-sm" id="limit">
+                            <option value="10" {% ifequal limit "10" %}selected{% endifequal %}>10</option>
+                            <option value="25" {% ifequal limit "25" %}selected{% endifequal %}>25</option>
+                            <option value="50" {% ifequal limit "50" %}selected{% endifequal %}>50</option>
+                            <option value="100" {% ifequal limit "100" %}selected{% endifequal %}>100</option>
+                        </select>&nbsp;条/页</label></div>
+                </div>
+            </div>
+            <div class="table-responsive text-nowrap table mt-2" id="dataTable" role="grid"
+                 aria-describedby="dataTable_info">
+                <table class="table my-0 table-hover" id="dataTable">
+                    <thead>
+                    <tr>
+                        <th>通知标题</th>
+                        <th>通知单位</th>
+                        <th>通知时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in page_obj %}
+                        <tr>
+                            <td><a href="{{ p.noti_url }}" target="_blank">{{ p.noti_title }}</a></td>
+                            <td>{{ p.noti_from }}</td>
+                            <td>{{ p.noti_date }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td><strong>通知标题</strong></td>
+                        <td><strong>通知单位</strong></td>
+                        <td><strong>通知时间</strong></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-6 align-self-center"></div>
+                <div class="col-md-6">
+                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="#"
+                                       onclick="loadXMLDoc('notification?page=1&limit={{ limit }}')"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="#"
+                                       onclick="loadXMLDoc('notification?page={{ page_obj.previous_page_number }}&limit={{ limit }}')">
+                                        {{ page_obj.previous_page_number }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item active disabled"><a class="page-link"
+                                                                     href="#">{{ page_obj.number }}</a></li>
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="#"
+                                       onclick="loadXMLDoc('notification?page={{ page_obj.next_page_number }}&limit={{ limit }}')">
+                                        {{ page_obj.next_page_number }}
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"
+                                       onclick="loadXMLDoc('notification?page={{ page_obj.paginator.num_pages }}')"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="{% static "js/script.min.js" %}"></script>
+</body>
+
+</html>
