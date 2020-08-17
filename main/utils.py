@@ -2,7 +2,7 @@
 
 # @File    :   utils.py
 # @Time    :   2020/7/24 16:23
-# @Software:   CourseChoosingSystem
+# @Software:   Django-CSS
 # @Contact :   jiuh.star@gmail.com
 from decimal import Decimal
 
@@ -37,7 +37,7 @@ def get_grade_point(score, credit):
 def generate_courses_children(course_names, url, method='GET', start_func='null', end_func='null'):
     return ({
         'courseName': arr['cour__cour_name'],
-        'href': f"javascript:loadXMLDoc('{url}?arrangementId={arr['arr_id']}','{method}','',{start_func},{end_func});"
+        'href': f"javascript:loadXMLDoc('{url}','{method}','arrangementId={arr['arr_id']}',{start_func},{end_func});"
     } for arr in course_names)
 
 

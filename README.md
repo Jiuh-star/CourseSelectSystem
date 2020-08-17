@@ -1,16 +1,22 @@
-# CourseSelectSystem
-A django-based system that implemented student course selection .
+# Django-CSS
+
+A django-based system that implemented student course selection.(CSS means Course Selection System)
+
+README language: English  [中文](/README_CN.md)
 
 ## Requirements
 
+```text
 Django
 django_debug_toolbar
 django-debug-toolbar-request-history
 django-simple-captcha
+```
 
 ## How to use
 
-1. execute `pip install -r requirements.txt` to install based required packages.
+**NOTE: YOU SHOULD CHANGE THE `SECRET_KEY` AND `DEBUG` IN `setting.py` FOR SAFETY!**
+1. execute `pip install -r requirements.txt` to install basic required packages.
 2. Then, you need to install **MariaDB** or **MySQL** as Django database backend.
 3. Create a folder named 'Instances' in project folder, and create a file named 'db.cnf', write down your database config as the following:
 ```ini
@@ -25,6 +31,7 @@ default-character-set = utf8
 ## Release notes
 
 1. 0.0.1-alpha: Base feature implemented.
+2. 0.0.2: bugs fixed and security improved.
 
 ## License
 
